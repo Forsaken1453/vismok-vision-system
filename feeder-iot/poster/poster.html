@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Poster — Pelempar Pakan Ikan Otomatis</title>
+<style>
+/* ============ FONT self-hosted ============ */
+@font-face { font-family:"Plus Jakarta Sans"; font-weight:400; font-display:swap;
+  src:url("../app/web/vendor/fonts/plus-jakarta-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family:"Plus Jakarta Sans"; font-weight:600; font-display:swap;
+  src:url("../app/web/vendor/fonts/plus-jakarta-sans-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family:"Plus Jakarta Sans"; font-weight:700; font-display:swap;
+  src:url("../app/web/vendor/fonts/plus-jakarta-sans-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family:"Plus Jakarta Sans"; font-weight:800; font-display:swap;
+  src:url("../app/web/vendor/fonts/plus-jakarta-sans-latin-800-normal.woff2") format("woff2"); }
+@font-face { font-family:"JetBrains Mono"; font-weight:400; font-display:swap;
+  src:url("../app/web/vendor/fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family:"JetBrains Mono"; font-weight:600; font-display:swap;
+  src:url("../app/web/vendor/fonts/jetbrains-mono-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family:"JetBrains Mono"; font-weight:700; font-display:swap;
+  src:url("../app/web/vendor/fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
+
+/* ============ HALAMAN A3 ============ */
+@page { size: 297mm 420mm; margin: 0; }
+* { margin:0; padding:0; box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+html, body { width:297mm; height:420mm; overflow:hidden; }
+body { font-family:"Plus Jakarta Sans","Segoe UI",Arial,sans-serif; color:#e9eef8; background:#070a12; }
+
+.poster {
+  position:relative; width:297mm; height:420mm; overflow:hidden;
+  display:flex; flex-direction:column; gap:3.8mm;
+  background:
+    radial-gradient(140mm 90mm at 88% 88%, rgba(14,116,144,.16), transparent 65%),
+    radial-gradient(120mm 80mm at 6% 78%,  rgba(59,130,246,.10), transparent 65%),
+    linear-gradient(180deg,#0b1220,#070a12 45%);
+}
+.poster > * { flex-shrink:0; }
+.px { padding:0 13mm; }
+
+/* aksen dekoratif: dua cincin tipis + titik-titik */
+.deco { position:absolute; inset:0; pointer-events:none; z-index:0; }
+.deco .ring1 { position:absolute; right:-30mm; top:225mm; width:80mm; height:80mm;
+  border:0.5mm solid rgba(96,165,250,.10); border-radius:50%; }
+.deco .ring2 { position:absolute; left:-20mm; top:300mm; width:52mm; height:52mm;
+  border:0.5mm solid rgba(34,211,238,.10); border-radius:50%; }
+.deco .dots { position:absolute; right:10mm; top:388mm; width:60mm; height:22mm;
+  background-image:radial-gradient(rgba(148,163,184,.22) 0.35mm, transparent 0.35mm);
+  background-size:4mm 4mm; opacity:.5; }
+section, footer, .stats { position:relative; z-index:1; }
+
+/* kicker kecil di atas tiap zona */
+.kick { font-family:"JetBrains Mono"; font-size:7.5pt; font-weight:600;
+  letter-spacing:2.5px; color:#67e8f9; text-transform:uppercase;
+  display:flex; align-items:center; gap:3mm; }
+.kick::after { content:""; flex:1; height:0.35mm;
+  background:linear-gradient(90deg,rgba(103,232,249,.35),transparent); }
+
+/* ============ HERO ============ */
+.hero { position:relative; width:297mm; }
+.hero svg { display:block; width:100%; height:auto; }
+.hero-txt { position:absolute; left:14mm; top:26mm; width:118mm; z-index:2; pointer-events:none; }
+.kicker { font-family:"JetBrains Mono"; font-size:8pt; font-weight:600; letter-spacing:3px;
+  color:#93c5fd; text-transform:uppercase; }
+.hero-txt h1 { margin-top:3.5mm; font-size:31pt; line-height:1.06; font-weight:800; letter-spacing:-1px;
+  text-shadow:0 2mm 8mm rgba(7,10,18,.8); }
+.hero-txt .alt {
+  background:linear-gradient(110deg,#67e8f9,#3b82f6 60%,#818cf8);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero-pills { display:flex; gap:2.6mm; margin-top:5mm; }
+.hpill {
+  display:inline-flex; align-items:baseline; gap:1.8mm;
+  font-family:"JetBrains Mono"; font-weight:700; font-size:11pt; color:#e0f2fe;
+  background:rgba(11,18,32,.62); border:0.4mm solid rgba(125,211,252,.35);
+  padding:2.2mm 4.2mm; border-radius:3mm; backdrop-filter:blur(4px);
+}
+.hpill small { font-size:6.5pt; font-weight:600; color:#7dd3fc; letter-spacing:1px; }
+.hero-sub { margin-top:4mm; font-size:9pt; color:#a7b6cc; max-width:105mm; line-height:1.4; }
+.hero-sub b { color:#e9eef8; }
+
+/* ============ STATS (tanpa kotak) ============ */
+.stats { display:flex; }
+.stat { flex:1; text-align:center; border-left:0.35mm solid rgba(148,163,184,.16); }
+.stat:first-child { border-left:none; }
+.stat .num { font-family:"JetBrains Mono"; font-size:19pt; font-weight:700; letter-spacing:-0.5px;
+  background:linear-gradient(110deg,#fff,#93c5fd); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.stat .num small { font-size:9pt; font-weight:600; -webkit-text-fill-color:#67e8f9; }
+.stat .lbl { font-family:"JetBrains Mono"; font-size:6.8pt; letter-spacing:1.5px; text-transform:uppercase;
+  color:#67748b; margin-top:0.8mm; }
+
+/* ============ DASHBOARD ============ */
+.dash-wrap { position:relative; }
+.browser { width:calc(100% - 30mm); border-radius:4.5mm; overflow:hidden;
+  border:0.5mm solid rgba(148,163,184,.20); background:#0b111c;
+  box-shadow:0 0 22mm rgba(59,130,246,.22), 0 8mm 18mm -8mm rgba(0,0,0,.8); }
+.browser-bar { display:flex; align-items:center; gap:2.5mm; padding:2.4mm 4mm;
+  background:#141b29; border-bottom:0.4mm solid rgba(148,163,184,.12); }
+.browser-bar .b { width:2.6mm; height:2.6mm; border-radius:50%; }
+.b1{background:#f87171;} .b2{background:#fbbf24;} .b3{background:#34d399;}
+.browser-bar .url { flex:1; font-family:"JetBrains Mono"; font-size:6.8pt; color:#67748b;
+  background:#0e1524; border:0.3mm solid rgba(148,163,184,.12);
+  padding:1.1mm 3.5mm; border-radius:10mm; white-space:nowrap; overflow:hidden; }
+.browser img { display:block; width:100%; height:90mm; object-fit:cover; object-position:top; }
+
+.phone { position:absolute; right:6mm; bottom:-7mm; width:44mm; transform:rotate(-4deg);
+  border-radius:6.5mm; overflow:hidden; border:1.1mm solid #263149; background:#0b111c;
+  box-shadow:0 10mm 20mm -8mm rgba(0,0,0,.9), 0 0 14mm rgba(56,189,248,.18); z-index:3; }
+.phone .notch { height:4.6mm; background:#141b29; display:grid; place-items:center; }
+.phone .notch::after { content:""; width:11mm; height:1.7mm; border-radius:2mm; background:#0b111c; }
+.phone img { display:block; width:100%; height:auto; }
+
+/* ============ FITUR ============ */
+.feats { display:grid; grid-template-columns:repeat(3,1fr); gap:3.5mm 5mm; }
+.feat { display:flex; align-items:center; gap:3.5mm; }
+.feat .fi { flex:none; width:10.5mm; height:10.5mm; display:grid; place-items:center;
+  font-size:13pt; border-radius:50%;
+  background:linear-gradient(135deg,var(--a-s),rgba(255,255,255,.02));
+  border:0.45mm solid var(--a-b);
+  box-shadow:0 0 8mm var(--a-glow); }
+.feat .ft { font-size:10pt; font-weight:700; display:block; line-height:1.2; }
+.feat .fs { font-size:7.6pt; color:#9dabc2; display:block; margin-top:0.4mm; }
+.g1 { --a-s:rgba(96,165,250,.20); --a-b:rgba(96,165,250,.45);  --a-glow:rgba(59,130,246,.35); }
+.g2 { --a-s:rgba(52,211,153,.20); --a-b:rgba(52,211,153,.45);  --a-glow:rgba(16,185,129,.35); }
+.g3 { --a-s:rgba(34,211,238,.18); --a-b:rgba(34,211,238,.42);  --a-glow:rgba(34,211,238,.30); }
+.g4 { --a-s:rgba(248,113,113,.20); --a-b:rgba(248,113,113,.45); --a-glow:rgba(239,68,68,.35); }
+.g5 { --a-s:rgba(167,139,250,.20); --a-b:rgba(167,139,250,.45); --a-glow:rgba(139,92,246,.35); }
+.g6 { --a-s:rgba(251,191,36,.18);  --a-b:rgba(251,191,36,.42);  --a-glow:rgba(245,158,11,.30); }
+
+/* ============ SENSOR: satu baris mono ============ */
+.sensor-line { display:flex; gap:3mm; }
+.sens { flex:1; text-align:center; padding:3mm 2mm; border-radius:3.5mm;
+  background:rgba(148,163,184,.05); border:0.35mm solid rgba(148,163,184,.12); }
+.sens .nm { font-family:"JetBrains Mono"; font-size:8.2pt; font-weight:700; color:var(--a); letter-spacing:0.5px; }
+.sens .rl { font-size:7.4pt; color:#9dabc2; margin-top:0.6mm; }
+.sv1{--a:#60a5fa;} .sv2{--a:#fb923c;} .sv3{--a:#a78bfa;} .sv4{--a:#fbbf24;}
+
+/* ============ ALERT STRIP ============ */
+.alert-strip {
+  display:flex; align-items:center; gap:6mm;
+  background:linear-gradient(90deg, rgba(239,68,68,.17), rgba(239,68,68,.03) 70%);
+  border:0.45mm solid rgba(239,68,68,.30); border-radius:5mm;
+  padding:4mm 6mm; position:relative; overflow:hidden;
+}
+.alert-strip::before { content:""; position:absolute; inset:0 0 auto 0; height:0.9mm;
+  background:linear-gradient(90deg,#ef4444,transparent 85%); }
+.al-left { display:flex; align-items:center; gap:3.8mm; flex:none; width:78mm; }
+.al-ic { flex:none; width:11mm; height:11mm; display:grid; place-items:center; font-size:13pt;
+  border-radius:50%; background:rgba(239,68,68,.20); border:0.45mm solid rgba(239,68,68,.45);
+  box-shadow:0 0 10mm rgba(239,68,68,.45); }
+.al-left .ak { font-family:"JetBrains Mono"; font-size:6.8pt; letter-spacing:2px; color:#fca5a5;
+  text-transform:uppercase; display:block; }
+.al-left b { font-size:10.5pt; line-height:1.25; display:block; margin-top:0.5mm; }
+.al-chips { display:grid; grid-template-columns:repeat(3,1fr); gap:2.2mm; flex:1; }
+.achip { display:flex; align-items:center; gap:2.4mm; padding:2.1mm 3.2mm;
+  background:rgba(7,10,18,.55); border:0.35mm solid rgba(239,68,68,.24); border-radius:2.8mm;
+  font-size:7.8pt; font-weight:600; white-space:nowrap; }
+.achip .ae { font-size:9pt; }
+
+/* ============ FLOW ============ */
+.flow { display:flex; align-items:center; gap:2.5mm; }
+.node { flex:1; text-align:center; padding:2.6mm 1.5mm; border-radius:3.5mm;
+  background:rgba(148,163,184,.05); border:0.35mm solid rgba(148,163,184,.14); }
+.node.core { border-color:rgba(96,165,250,.50); background:rgba(59,130,246,.14);
+  box-shadow:0 0 10mm rgba(59,130,246,.25); }
+.node .ne { font-size:12pt; }
+.node .nt { font-size:8pt; font-weight:700; margin-top:0.6mm; }
+.node .nd { font-size:6.6pt; color:#67748b; margin-top:0.3mm; }
+.edge { flex:none; color:#60a5fa; font-family:"JetBrains Mono"; font-weight:700; font-size:10pt; width:6mm; text-align:center; }
+
+/* ============ FOOTER ============ */
+footer { text-align:center; font-family:"JetBrains Mono"; font-size:7pt; color:#67748b; letter-spacing:0.5px; }
+footer b { color:#93c5fd; }
+footer .sep { color:#334155; margin:0 2mm; }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <div class="deco"><span class="ring1"></span><span class="ring2"></span><span class="dots"></span></div>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <svg viewBox="0 0 1120 620" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#101d38"/>
+          <stop offset="0.7" stop-color="#152647"/>
+          <stop offset="1" stop-color="#0e1a33"/>
+        </linearGradient>
+        <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2563eb"/>
+          <stop offset="0.55" stop-color="#1d4ed8"/>
+          <stop offset="1" stop-color="#0c4a6e"/>
+        </linearGradient>
+        <linearGradient id="dev" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3d4d68"/>
+          <stop offset="1" stop-color="#222e44"/>
+        </linearGradient>
+        <linearGradient id="koi" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#fdba74"/>
+          <stop offset="1" stop-color="#f97316"/>
+        </linearGradient>
+        <linearGradient id="fadeout" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#070a12" stop-opacity="0"/>
+          <stop offset="1" stop-color="#070a12"/>
+        </linearGradient>
+        <radialGradient id="moonhalo" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#7dd3fc" stop-opacity="0.35"/>
+          <stop offset="1" stop-color="#7dd3fc" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="devglow" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#3b82f6" stop-opacity="0.22"/>
+          <stop offset="1" stop-color="#3b82f6" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+
+      <!-- langit -->
+      <rect width="1120" height="620" fill="url(#sky)"/>
+
+      <!-- bintang -->
+      <g fill="#dbeafe">
+        <circle cx="90"  cy="60"  r="1.6" opacity="0.8"/>
+        <circle cx="180" cy="140" r="1.2" opacity="0.5"/>
+        <circle cx="260" cy="45"  r="1.4" opacity="0.7"/>
+        <circle cx="340" cy="110" r="1.1" opacity="0.4"/>
+        <circle cx="470" cy="60"  r="1.5" opacity="0.6"/>
+        <circle cx="560" cy="130" r="1.2" opacity="0.5"/>
+        <circle cx="640" cy="40"  r="1.4" opacity="0.7"/>
+        <circle cx="730" cy="100" r="1.1" opacity="0.45"/>
+        <circle cx="820" cy="55"  r="1.5" opacity="0.75"/>
+        <circle cx="910" cy="150" r="1.2" opacity="0.5"/>
+        <circle cx="60"  cy="200" r="1.2" opacity="0.45"/>
+        <circle cx="150" cy="260" r="1.1" opacity="0.35"/>
+        <circle cx="430" cy="200" r="1.3" opacity="0.5"/>
+        <circle cx="700" cy="190" r="1.2" opacity="0.4"/>
+        <circle cx="1000" cy="220" r="1.3" opacity="0.55"/>
+        <circle cx="1060" cy="140" r="1.1" opacity="0.4"/>
+        <circle cx="990" cy="40"  r="1.4" opacity="0.7"/>
+      </g>
+
+      <!-- bulan -->
+      <circle cx="1005" cy="85" r="120" fill="url(#moonhalo)"/>
+      <circle cx="1005" cy="85" r="38" fill="#bae6fd" opacity="0.9"/>
+      <circle cx="993" cy="75" r="7" fill="#7dd3fc" opacity="0.35"/>
+      <circle cx="1018" cy="98" r="5" fill="#7dd3fc" opacity="0.3"/>
+
+      <!-- awan -->
+      <g fill="#dbeafe" opacity="0.07">
+        <ellipse cx="200" cy="180" rx="90" ry="16"/>
+        <ellipse cx="255" cy="168" rx="55" ry="12"/>
+        <ellipse cx="880" cy="210" rx="70" ry="13"/>
+      </g>
+
+      <!-- cahaya lembut di sekitar alat -->
+      <circle cx="760" cy="260" r="240" fill="url(#devglow)"/>
+
+      <!-- ===== ALAT ===== -->
+      <!-- tiang -->
+      <rect x="752" y="360" width="16" height="150" fill="#475569"/>
+      <rect x="752" y="360" width="6"  height="150" fill="#64748b"/>
+      <rect x="700" y="500" width="120" height="10" rx="5" fill="#334155"/>
+
+      <!-- corong -->
+      <polygon points="688,232 832,232 812,196 708,196" fill="#4b5872"/>
+      <polygon points="708,196 812,196 804,184 716,184" fill="#5f6d85"/>
+      <ellipse cx="760" cy="184" rx="40" ry="6" fill="#7c8aa0"/>
+      <!-- butiran pakan dalam corong -->
+      <g fill="#ca8a04" opacity="0.85">
+        <circle cx="740" cy="216" r="3.5"/><circle cx="756" cy="222" r="3.5"/>
+        <circle cx="772" cy="214" r="3.5"/><circle cx="786" cy="224" r="3.5"/>
+        <circle cx="726" cy="226" r="3.5"/><circle cx="798" cy="214" r="3.5"/>
+      </g>
+
+      <!-- kotak utama -->
+      <rect x="672" y="232" width="176" height="102" rx="16" fill="url(#dev)"
+            stroke="#60a5fa" stroke-opacity="0.4" stroke-width="2"/>
+      <!-- layar -->
+      <rect x="692" y="256" width="84" height="34" rx="7" fill="#0b1220" stroke="#334155" stroke-width="1.5"/>
+      <text x="734" y="280" text-anchor="middle" font-family="monospace" font-size="21" font-weight="bold" fill="#67e8f9">07:00</text>
+      <!-- LED -->
+      <circle cx="806" cy="264" r="6" fill="#34d399"/>
+      <circle cx="806" cy="264" r="11" fill="#34d399" opacity="0.22"/>
+      <!-- speaker -->
+      <g stroke="#475569" stroke-width="3" stroke-linecap="round">
+        <line x1="788" y1="288" x2="820" y2="288"/>
+        <line x1="788" y1="297" x2="820" y2="297"/>
+        <line x1="788" y1="306" x2="820" y2="306"/>
+      </g>
+      <text x="692" y="322" font-family="monospace" font-size="11" fill="#64748b">fish-feeder-01</text>
+
+      <!-- kotak motor -->
+      <rect x="726" y="334" width="68" height="34" rx="8" fill="#2b3850" stroke="#475569" stroke-width="1.5"/>
+      <g transform="translate(760,351)">
+        <circle r="9" fill="none" stroke="#7dd3fc" stroke-width="2.5"/>
+        <path d="M0,-9 A9,9 0 0 1 7.8,4.5" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+        <circle r="2.4" fill="#7dd3fc"/>
+      </g>
+
+      <!-- gelombang wifi -->
+      <g stroke="#34d399" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.9">
+        <path d="M876 250 a18 18 0 0 1 30 0"/>
+        <path d="M883 234 a11 11 0 0 1 16 0"/>
+      </g>
+      <circle cx="891" cy="222" r="3.5" fill="#34d399"/>
+
+      <!-- selang keluar -->
+      <polygon points="782,368 800,368 820,452 800,452" fill="#475569"/>
+
+      <!-- pellet jatuh -->
+      <g fill="#e8b45a">
+        <circle cx="812" cy="470" r="5"/>
+        <circle cx="806" cy="492" r="5"/>
+        <circle cx="814" cy="514" r="5"/>
+      </g>
+      <g fill="#e8b45a" opacity="0.25">
+        <circle cx="812" cy="470" r="10"/>
+        <circle cx="806" cy="492" r="10"/>
+        <circle cx="814" cy="514" r="10"/>
+      </g>
+
+      <!-- ===== KOLAM ===== -->
+      <rect x="50" y="528" width="1020" height="92" rx="28" fill="url(#water)"/>
+      <rect x="50" y="528" width="1020" height="14" rx="7" fill="#7dd3fc" opacity="0.30"/>
+      <!-- riak di titik jatuh -->
+      <ellipse cx="810" cy="534" rx="18" ry="4" fill="none" stroke="#bae6fd" stroke-width="2.5" opacity="0.7"/>
+      <ellipse cx="810" cy="534" rx="34" ry="7" fill="none" stroke="#bae6fd" stroke-width="2" opacity="0.35"/>
+      <!-- kaustik cahaya -->
+      <g stroke="#bae6fd" opacity="0.13" stroke-width="2.5" fill="none" stroke-linecap="round">
+        <path d="M150 560 q40 -8 80 0"/>
+        <path d="M330 585 q40 -8 80 0"/>
+        <path d="M540 570 q40 -8 80 0"/>
+        <path d="M900 580 q40 -8 80 0"/>
+      </g>
+
+      <!-- kawanan ikan kecil di kiri -->
+      <g opacity="0.6">
+        <g transform="translate(200,390) scale(0.28)">
+          <path d="M46,0 L84,-20 C72,-7 72,7 84,20 Z" fill="#3b82f6"/>
+          <ellipse rx="52" ry="23" fill="#60a5fa"/>
+          <circle cx="-36" cy="-5" r="5" fill="#0f172a"/>
+        </g>
+        <g transform="translate(285,432) scale(0.22)">
+          <path d="M46,0 L84,-20 C72,-7 72,7 84,20 Z" fill="#22d3ee"/>
+          <ellipse rx="52" ry="23" fill="#67e8f9"/>
+          <circle cx="-36" cy="-5" r="5" fill="#0f172a"/>
+        </g>
+        <g transform="translate(150,455) scale(0.18)">
+          <path d="M46,0 L84,-20 C72,-7 72,7 84,20 Z" fill="#3b82f6"/>
+          <ellipse rx="52" ry="23" fill="#60a5fa"/>
+          <circle cx="-36" cy="-5" r="5" fill="#0f172a"/>
+        </g>
+      </g>
+      <g fill="none" stroke="#bae6fd" opacity="0.3" stroke-width="2">
+        <circle cx="240" cy="360" r="4"/>
+        <circle cx="320" cy="330" r="3"/>
+        <circle cx="105" cy="410" r="3.5"/>
+      </g>
+
+      <!-- ikan 1: koi besar -->
+      <g transform="translate(660,585) rotate(-6)">
+        <ellipse cx="0" cy="16" rx="52" ry="10" fill="#082f49" opacity="0.5"/>
+        <path d="M46,0 L84,-20 C72,-7 72,7 84,20 Z" fill="#ea580c"/>
+        <ellipse rx="52" ry="23" fill="url(#koi)"/>
+        <path d="M-18,-21 C 0,-34 22,-30 32,-16 L 10,-12 Z" fill="#c2410c"/>
+        <ellipse cx="-8" cy="6" rx="18" ry="9" fill="#fed7aa" opacity="0.65"/>
+        <ellipse cx="16" cy="-6" rx="10" ry="6" fill="#f87171" opacity="0.75"/>
+        <circle cx="-36" cy="-5" r="5" fill="#0f172a"/>
+        <circle cx="-34.5" cy="-6.5" r="1.6" fill="#fff"/>
+        <path d="M-50,4 q-8,6 -4,12" stroke="#f97316" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </g>
+      <!-- ikan 2: biru, menghadap kanan -->
+      <g transform="translate(420,575) scale(-0.62,0.62) rotate(4)">
+        <ellipse cx="0" cy="18" rx="50" ry="9" fill="#082f49" opacity="0.5"/>
+        <path d="M46,0 L84,-20 C72,-7 72,7 84,20 Z" fill="#3b82f6"/>
+        <ellipse rx="52" ry="23" fill="#60a5fa"/>
+        <circle cx="-36" cy="-5" r="5" fill="#0f172a"/>
+        <circle cx="-34.5" cy="-6.5" r="1.6" fill="#fff"/>
+      </g>
+      <!-- ikan 3: kecil oranye -->
+      <g transform="translate(250,590) scale(0.45)">
+        <path d="M46,0 L84,-20 C72,-7 72,7 84,20 Z" fill="#ea580c"/>
+        <ellipse rx="52" ry="23" fill="url(#koi)"/>
+        <circle cx="-36" cy="-5" r="5" fill="#0f172a"/>
+      </g>
+
+      <!-- gelembung -->
+      <g fill="none" stroke="#bae6fd" opacity="0.4" stroke-width="2.5">
+        <circle cx="540" cy="555" r="5"/>
+        <circle cx="960" cy="570" r="4"/>
+        <circle cx="120" cy="580" r="4.5"/>
+        <circle cx="760" cy="555" r="4"/>
+      </g>
+
+      <!-- lelehan ke badan poster -->
+      <rect x="0" y="560" width="1120" height="60" fill="url(#fadeout)"/>
+    </svg>
+
+    <div class="hero-txt">
+      <span class="kicker">Pameran Sains &amp; Teknologi · 2026</span>
+      <h1>PELEMPAR<br>PAKAN IKAN<br><span class="alt">OTOMATIS</span></h1>
+      <div class="hero-pills">
+        <span class="hpill">07:00 <small>PAGI</small></span>
+        <span class="hpill">12:00 <small>SIANG</small></span>
+        <span class="hpill">17:00 <small>SORE</small></span>
+      </div>
+      <p class="hero-sub">Dijadwalkan, <b>dipantau sensor</b>, dan <b>beralarm saat gagal</b> — kendali penuh dari HP.</p>
+    </div>
+  </section>
+
+  <!-- ================= STATS ================= -->
+  <section class="stats px">
+    <div class="stat"><div class="num">3<small>×</small></div><div class="lbl">pakan / hari</div></div>
+    <div class="stat"><div class="num">1<small> dtk</small></div><div class="lbl">update sensor</div></div>
+    <div class="stat"><div class="num">12</div><div class="lbl">deteksi gagal</div></div>
+    <div class="stat"><div class="num">Rp0</div><div class="lbl">biaya bulanan</div></div>
+  </section>
+
+  <!-- ================= DASHBOARD ================= -->
+  <section class="px">
+    <div class="kick" style="margin-bottom:3mm;">Dashboard Live · Screenshot Asli</div>
+    <div class="dash-wrap">
+      <div class="browser">
+        <div class="browser-bar">
+          <span class="b b1"></span><span class="b b2"></span><span class="b b3"></span>
+          <span class="url">http://192.168.1.7:8080 — monitoring ikan</span>
+        </div>
+        <img src="dashboard_shot.png" alt="Dashboard desktop">
+      </div>
+      <div class="phone">
+        <div class="notch"></div>
+        <img src="phone_shot.png" alt="Dashboard di HP">
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FITUR ================= -->
+  <section class="px">
+    <div class="kick" style="margin-bottom:3mm;">Fitur Unggulan</div>
+    <div class="feats">
+      <div class="feat g1"><span class="fi">⏰</span>
+        <span><span class="ft">Jadwal presisi</span><span class="fs">RTC DS3231 anti-padam</span></span></div>
+      <div class="feat g2"><span class="fi">🍽</span>
+        <span><span class="ft">Feed Now</span><span class="fs">satu tombol dari HP</span></span></div>
+      <div class="feat g3"><span class="fi">📊</span>
+        <span><span class="ft">Grafik real-time</span><span class="fs">4 sensor, tiap detik</span></span></div>
+      <div class="feat g4"><span class="fi">🚨</span>
+        <span><span class="ft">Alarm kegagalan</span><span class="fs">banner merah + bunyi</span></span></div>
+      <div class="feat g5"><span class="fi">📱</span>
+        <span><span class="ft">Buka di mana saja</span><span class="fs">HP · tablet · laptop</span></span></div>
+      <div class="feat g6"><span class="fi">🌐</span>
+        <span><span class="ft">100% lokal</span><span class="fs">tanpa server &amp; langganan</span></span></div>
+    </div>
+  </section>
+
+  <!-- ================= SENSOR ================= -->
+  <section class="px">
+    <div class="kick" style="margin-bottom:3mm;">Sensor Pengawas</div>
+    <div class="sensor-line">
+      <div class="sens sv1"><div class="nm">ZMPT101B</div><div class="rl">tegangan AC</div></div>
+      <div class="sens sv2"><div class="nm">ACS712</div><div class="rl">arus motor</div></div>
+      <div class="sens sv3"><div class="nm">PZEM004T V4</div><div class="rl">daya &amp; energi</div></div>
+      <div class="sens sv4"><div class="nm">DS3231</div><div class="rl">waktu presisi</div></div>
+    </div>
+  </section>
+
+  <!-- ================= ALERT ================= -->
+  <section class="px">
+    <div class="alert-strip">
+      <div class="al-left">
+        <span class="al-ic">🚨</span>
+        <span>
+          <span class="ak">Peringatan otomatis</span>
+          <b>Jika pelempar gagal, langsung ketahuan</b>
+        </span>
+      </div>
+      <div class="al-chips">
+        <span class="achip"><span class="ae">🔧</span> Motor macet</span>
+        <span class="achip"><span class="ae">⚡</span> Listrik padam</span>
+        <span class="achip"><span class="ae">🔌</span> Sensor putus</span>
+        <span class="achip"><span class="ae">📴</span> Perangkat offline</span>
+        <span class="achip"><span class="ae">📶</span> Sinyal lemah</span>
+        <span class="achip"><span class="ae">⏰</span> Jadwal telat</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FLOW ================= -->
+  <section class="px">
+    <div class="flow">
+      <div class="node"><div class="ne">📱</div><div class="nt">HP</div><div class="nd">browser</div></div>
+      <span class="edge">→</span>
+      <div class="node"><div class="ne">💻</div><div class="nt">Server</div><div class="nd">Flask</div></div>
+      <span class="edge">⇄</span>
+      <div class="node core"><div class="ne">🧠</div><div class="nt">ESP32</div><div class="nd">WiFi · jadwal</div></div>
+      <span class="edge">→</span>
+      <div class="node"><div class="ne">⚙</div><div class="nt">Motor</div><div class="nd">12V PWM</div></div>
+      <span class="edge">↑</span>
+      <div class="node"><div class="ne">🐟</div><div class="nt">Ikan</div><div class="nd">pakan teratur</div></div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="px">
+    <b>fish-feeder-01</b><span class="sep">·</span>ESP32 · ZMPT101B · ACS712 · PZEM004T · DS3231<span class="sep">·</span>monitoring lokal tanpa biaya<span class="sep">·</span>2026
+  </footer>
+
+</div>
+</body>
+</html>

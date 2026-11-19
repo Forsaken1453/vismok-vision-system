@@ -1,0 +1,45 @@
+=====================================================================
+ MULAI DI SINI - PERSIAPAN DATASET LEVIATHAN
+=====================================================================
+
+STEP 1 - KUMPULKAN FOTO (ke folder datasets\<jenis>\)
+----------------------------------------------------
+Target minimal per jenis (yang belum tercapai lihat di bawah):
+  koi 200, komet 200, ikan_mas 200, guppy 150,
+  cupang 100, molly 100, chana 80, arwana 80
+
+Cek progres kapan saja:
+  python tools\dataset_status.py
+
+Campur sumbernya (40% foto sendiri + 40% video YouTube + 20% internet):
+  - Foto sendiri: ikan di kantong plastik, ember, bak; air keruh & bening
+  - Video YouTube -> ekstrak frame:
+    python tools\frames_from_video.py "video.mp4" datasets\guppy --every 1.5
+  - Google Images / Roboflow Universe
+
+STEP 2 - LABELING DI ROBOFLOW (gratis)
+----------------------------------------------------
+  roboflow.com -> New Project -> Object Detection
+  Upload semua foto -> buat 8 class:
+    guppy, koi, cupang, molly, komet, chana, arwana, ikan_mas
+  Box mengikuti badan ikan (kalau 3 ikan = 3 box!)
+  Generate -> Export YOLOv8/YOLOv11 -> download zip
+
+STEP 3 - EKSTRAK & TRAINING
+----------------------------------------------------
+  Ekstrak zip ke:  D:\Leviathan\datasets\export\
+  (harus berisi train/ valid/ test/ + data.yaml)
+
+  Lalu satu perintah:
+  python tools\train_leviathan.py
+
+  (butuh PyTorch CUDA + ultralytics — sedang di-install otomatis)
+
+STEP 4 - SELESAI OTOMATIS
+----------------------------------------------------
+  Script training otomatis: export ONNX -> pasang ke
+  models\model.onnx + dist\Leviathan\models\model.onnx
+  Jalankan Leviathan.exe -> chip berubah jadi "MODEL: ONNX"
+
+Detail lengkap: docs\DATASET_GUIDE.md & docs\TRAINING_QUICKSTART.md
+=====================================================================

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b111c">
+  <title>AMBAFISH - Monitoring Base Acquisition and Control Dashboard</title>
+  <link rel="stylesheet" href="/style.css?v=20261117-5">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐟</text></svg>">
+</head>
+<body>
+
+<!-- latar glow halus -->
+<div class="bg-glow" aria-hidden="true"></div>
+
+<!-- ================= HEADER ================= -->
+<header class="topbar">
+  <div class="brand">
+    <span class="logo" aria-hidden="true">🐟</span>
+    <div class="brand-txt">
+      <h1>AMBAFISH - Monitoring Base Acquisition and Control Dashboard</h1>
+      <span class="device-id" id="deviceId">fish-feeder-01</span>
+    </div>
+  </div>
+
+  <div class="status-cluster">
+    <div class="clock">
+      <span id="clockTime">--:--:--</span>
+      <small id="rtcBadge" class="badge">RTC ?</small>
+    </div>
+    <div class="conn">
+      <span id="connDot" class="dot"></span>
+      <span id="connText">Menghubungkan…</span>
+    </div>
+  </div>
+</header>
+
+<!-- ================= ALERT ================= -->
+<div id="alertBanner" class="alert-banner hidden" role="alert">
+  <span class="alert-icon" aria-hidden="true">⚠</span>
+  <div class="alert-body">
+    <strong id="alertTitle">Peringatan</strong>
+    <span id="alertMessage"></span>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <section class="card card-hero">
+    <div class="hero-main">
+      <span class="hero-label">Feed Berikutnya</span>
+      <div class="hero-time" id="nextTime">--:--</div>
+      <div class="hero-countdown" id="nextCountdown">—</div>
+      <div class="hero-meta" id="nextSlotName">—</div>
+    </div>
+
+    <div class="hero-side">
+      <div class="motor-pill" id="motorPill">
+        <span class="motor-icon" aria-hidden="true">⚙</span>
+        <span id="motorStatus">Motor idle</span>
+      </div>
+
+      <div class="auto-toggle">
+        <label class="switch" aria-label="Mode otomatis">
+          <input type="checkbox" id="autoFeed" checked>
+          <span class="slider"></span>
+        </label>
+        <span>Mode otomatis</span>
+      </div>
+
+      <div class="hero-actions">
+        <label class="takar-input">
+          Takaran
+          <input type="number" id="takarInput" value="1.0" min="0.2" max="5" step="0.1">
+        </label>
+        <button class="btn btn-primary" id="btnFeedNow">🍽 Feed Sekarang</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GAUGE ============ -->
+  <section class="gauge-grid" aria-label="Sensor utama">
+    <div class="gauge a-blue">
+      <div class="gauge-icon" aria-hidden="true">⚡</div>
+      <div class="gauge-val"><span id="gAcVolt">0</span><small>V</small></div>
+      <div class="gauge-lbl">Tegangan AC</div>
+      <div class="gauge-sub">ZMPT101B · PZEM</div>
+    </div>
+
+    <div class="gauge a-violet">
+      <div class="gauge-icon" aria-hidden="true">💡</div>
+      <div class="gauge-val"><span id="gPower">0</span><small>W</small></div>
+      <div class="gauge-lbl">Daya</div>
+      <div class="gauge-sub">PZEM004T</div>
+    </div>
+
+    <div class="gauge a-cyan">
+      <div class="gauge-icon" aria-hidden="true">🔌</div>
+      <div class="gauge-val"><span id="gAcCur">0.00</span><small>A</small></div>
+      <div class="gauge-lbl">Arus AC</div>
+      <div class="gauge-sub">PZEM004T</div>
+    </div>
+
+    <div class="gauge a-green">
+      <div class="gauge-icon" aria-hidden="true">🔋</div>
+      <div class="gauge-val"><span id="gEnergy">0</span><small>Wh</small></div>
+      <div class="gauge-lbl">Energi Kumulatif</div>
+      <div class="gauge-sub">PZEM004T</div>
+    </div>
+
+    <div class="gauge a-orange">
+      <div class="gauge-icon" aria-hidden="true">🔁</div>
+      <div class="gauge-val"><span id="gMotorCur">0.00</span><small>A</small></div>
+      <div class="gauge-lbl">Arus Motor</div>
+      <div class="gauge-sub">ACS712</div>
+    </div>
+
+    <div class="gauge a-amber">
+      <div class="gauge-icon" aria-hidden="true">📶</div>
+      <div class="gauge-val"><span id="gRssi">0</span><small>dBm</small></div>
+      <div class="gauge-lbl">Sinyal WiFi</div>
+      <div class="gauge-sub" id="gRssiQ">ESP32</div>
+    </div>
+
+    <div class="gauge a-green">
+      <div class="gauge-icon" aria-hidden="true">🍽</div>
+      <div class="gauge-val"><span id="gFeedCount">0</span><small>x</small></div>
+      <div class="gauge-lbl">Pakan Hari Ini</div>
+      <div class="gauge-sub">Jumlah dari firmware</div>
+    </div>
+  </section>
+
+  <!-- ============ ESTIMASI BIAYA LISTRIK ============ -->
+  <section class="card">
+    <div class="card-head">
+      <div class="card-title">
+        <h2>Estimasi Biaya Listrik</h2>
+        <span class="card-sub">Perhitungan dari selisih energi PZEM yang tercatat</span>
+      </div>
+      <div class="tariff-control">
+        <label for="tariffInput">Tarif listrik (Rp/kWh)</label>
+        <input id="tariffInput" class="sel" type="number" min="1" max="100000"
+               step="0.01" value="1444.70" inputmode="decimal">
+        <button class="btn btn-primary btn-sm" id="btnSaveTariff">Simpan Tarif</button>
+      </div>
+    </div>
+
+    <div class="billing-grid">
+      <div class="billing-metric">
+        <span class="billing-label">Konsumsi hari ini</span>
+        <strong id="billTodayKwh">-- kWh</strong>
+        <span id="billTodayCost" class="billing-cost">--</span>
+      </div>
+      <div class="billing-metric">
+        <span class="billing-label">Bulan berjalan</span>
+        <strong id="billMonthKwh">-- kWh</strong>
+        <span id="billMonthCost" class="billing-cost">--</span>
+      </div>
+      <div class="billing-metric billing-highlight">
+        <span class="billing-label">Proyeksi biaya bulan ini</span>
+        <strong id="billProjection">--</strong>
+        <span id="billProjectionKwh" class="billing-cost">-- kWh</span>
+      </div>
+    </div>
+    <p class="billing-note" id="billingNote">
+      Tarif awal Rp1.444,70/kWh; sesuaikan dengan golongan PLN Anda.
+      Estimasi hanya untuk beban yang terukur PZEM, bukan total tagihan rumah.
+      Belum termasuk pajak, biaya administrasi, dan komponen tagihan lainnya.
+    </p>
+  </section>
+
+  <!-- ============ GRAFIK ============ -->
+  <section class="card">
+    <div class="card-head">
+      <div class="card-title">
+        <h2>Grafik Real-time</h2>
+        <span class="card-sub">Data live dari ESP32, disimpan di RAM</span>
+      </div>
+      <div class="chart-tools">
+        <select id="rangeSelect" class="sel" aria-label="Rentang waktu">
+          <option value="60">1 menit</option>
+          <option value="300" selected>5 menit</option>
+          <option value="720">12 menit</option>
+        </select>
+        <label class="mini-check"><input type="checkbox" id="autoRefresh" checked> Auto</label>
+        <button class="btn btn-ghost btn-sm" id="btnExportExcel">Ekspor Excel</button>
+        <button class="btn btn-ghost btn-sm" id="btnClearHist">Hapus</button>
+      </div>
+    </div>
+
+    <div class="chart-tabs">
+      <button class="tab active" data-metric="ac_voltage">Tegangan</button>
+      <button class="tab" data-metric="power_w">Daya</button>
+      <button class="tab" data-metric="motor_current">Arus Motor</button>
+      <button class="tab" data-metric="secs_to_next">Menit ke Feed</button>
+      <button class="tab" data-metric="all">Semua</button>
+    </div>
+
+    <div class="chart-box"><canvas id="mainChart"></canvas></div>
+    <p class="chart-note">Riwayat di RAM (maksimum 720 titik) dapat diekspor ke Excel dan hilang saat aplikasi ditutup.</p>
+  </section>
+
+  <!-- ============ JADWAL ============ -->
+  <section class="card">
+    <div class="card-head">
+      <div class="card-title">
+        <h2>Jadwal Pemberian Pakan</h2>
+        <span class="card-sub" id="scheduleHint">Durasi = 3 detik · takaran</span>
+      </div>
+      <button class="btn btn-primary btn-sm" id="btnSaveSched">Simpan Jadwal</button>
+    </div>
+
+    <div class="table-scroll">
+      <table class="sched-table">
+        <thead>
+          <tr><th>Slot</th><th>Jam</th><th>Takaran</th><th>Durasi</th><th>Status</th></tr>
+        </thead>
+        <tbody id="schedBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ DETAIL + ALERT ============ -->
+  <section class="two-col">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <h2>Detail Sensor</h2>
+          <span class="card-sub">Nilai mentah &amp; kesehatan sistem</span>
+        </div>
+      </div>
+      <table class="kv-table"><tbody>
+        <tr id="dZmptRawRow"><td>ZMPT101B (mentah)</td><td id="dZmptRaw">—</td></tr>
+        <tr><td>ZMPT101B (kalibrasi)</td><td id="dZmpt">—</td></tr>
+        <tr id="dBaselineRow"><td>ACS712 baseline</td><td id="dBaseline">—</td></tr>
+        <tr><td>ACS712 arus terbaca</td><td id="dPeak">—</td></tr>
+        <tr id="dFreqRow"><td>Frekuensi AC</td><td id="dFreq">—</td></tr>
+        <tr id="dPfRow"><td>Power Factor</td><td id="dPf">—</td></tr>
+        <tr><td>PZEM004T</td><td id="dPzemOk">—</td></tr>
+        <tr id="dHeapRow"><td>RAM ESP32</td><td id="dHeap">—</td></tr>
+        <tr id="dUptimeRow"><td>Uptime</td><td id="dUptime">—</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <h2>Riwayat Peringatan</h2>
+          <span class="card-sub">20 peristiwa terakhir di sesi ini</span>
+        </div>
+      </div>
+      <ul class="alert-list" id="alertList">
+        <li class="empty">Belum ada peringatan</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span class="foot-t">Dashboard Pelempar Pakan Ikan · monitoring lokal, tanpa hosting</span>
+    <div class="chips">
+      <span class="chip">ZMPT101B</span>
+      <span class="chip">ACS712</span>
+      <span class="chip">PZEM004T</span>
+      <span class="chip">DS3231</span>
+      <span class="chip">RS555 12V</span>
+    </div>
+  </footer>
+</main>
+
+<!-- toast notifikasi singkat -->
+<div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+<script src="/vendor/chart.min.js"></script>
+<script src="/app.js?v=20261117-5"></script>
+</body>
+</html>

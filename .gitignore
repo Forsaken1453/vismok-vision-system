@@ -1,0 +1,46 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.pyd
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# ---- Build & artefak besar ----
+build/
+dist/
+*.spec.bak
+*.exe
+*.msi
+*.onnx.tmp
+
+# ---- Dataset & hasil training (tidak dipublikasikan) ----
+datasets/
+runs/
+weights/
+*.pt
+*.onnx.data
+
+# ---- Data lokal aplikasi ----
+data/
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+tests/*.txt
+snapshots/
+
+# ---- Log ----
+*.log
+logs/
+
+# ---- OS ----
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# ---- Editor ----
+.vscode/
+.idea/
+*.swp
