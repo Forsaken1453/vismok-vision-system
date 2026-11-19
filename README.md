@@ -9,6 +9,7 @@
 [![YOLOv11](https://img.shields.io/badge/Model-YOLOv11s-FF6F00)](https://docs.ultralytics.com/)
 [![ONNX](https://img.shields.io/badge/Inference-ONNX%20Runtime-005CED?logo=onnx&logoColor=white)](https://onnxruntime.ai/)
 [![ESP32](https://img.shields.io/badge/Firmware-ESP32-E7352C?logo=espressif&logoColor=white)](https://www.espressif.com/)
+[![Release](https://img.shields.io/github/v/release/Forsaken1453/vismok-capstone?color=22D3EE&label=release)](https://github.com/Forsaken1453/vismok-capstone/releases/latest)
 [![License](https://img.shields.io/badge/License-MIT-22D3EE)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D4?logo=windows&logoColor=white)](#)
 
@@ -198,6 +199,11 @@ vismok-capstone/
 ## 🚀 Menjalankan Proyek
 
 ### A. Aplikasi visi (VISMOK)
+
+**Cara tercepat — unduh paket portable** dari [Releases](https://github.com/Forsaken1453/vismok-capstone/releases/latest)
+(`VISMOK-v1.0.0-win64.zip`), ekstrak, lalu jalankan `VISMOK.exe`. Tidak perlu Python.
+
+Dari sumber:
 
 ```bash
 cd vision-app
