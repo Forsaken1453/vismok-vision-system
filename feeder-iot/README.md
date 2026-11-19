@@ -149,7 +149,7 @@ fish-feeder-dashboard/
 | `POST` | `/api/telemetry` | Firmware lama (monitoring saja) | Terima telemetry datar tanpa kanal perintah |
 | `GET` | `/api/state` | Browser (tiap 1 detik) | Status lengkap + alert |
 | `GET` | `/api/history` | Browser (tiap 2 detik) | Data grafik |
-| `GET` | `/api/export.xlsx` | Browser | Simpan salinan di `D:\CAPSTONE` dan unduh workbook Excel `.xlsx` |
+| `GET` | `/api/export.xlsx` | Browser | Simpan salinan di folder `Documents/VISMOK/exports` dan unduh workbook Excel `.xlsx` |
 | `POST` | `/api/settings` | Browser | Simpan tarif listrik (Rp/kWh) |
 | `POST` | `/api/history/clear` | Browser | Hapus history |
 | `POST` | `/api/feed_now` | Browser | Feed manual |

@@ -45,10 +45,11 @@ import mimetypes  # noqa: E402
 mimetypes.add_type("font/woff2", ".woff2")
 
 PORT = 8080
-EXCEL_EXPORT_DIR = r"D:\CAPSTONE"
+EXCEL_EXPORT_DIR = os.path.join(
+    os.path.expanduser("~"), "Documents", "VISMOK", "exports")
 BILLING_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "billing.json")
 billing_tracker = BillingTracker(BILLING_FILE)
-CAPSTONE_SCHEDULE = [
+DEFAULT_SCHEDULE = [
     {"time": "07:00", "takar": 1.0},
     {"time": "12:00", "takar": 1.0},
     {"time": "17:00", "takar": 1.0},
@@ -112,7 +113,7 @@ def api_ingest():
                 valid_clock = False
 
         schedule = payload.get("schedule") or settings.get(
-            "schedule", CAPSTONE_SCHEDULE
+            "schedule", DEFAULT_SCHEDULE
         )
         next_slot_index = -1
         secs_to_next = 0
@@ -153,7 +154,7 @@ def api_ingest():
         }
         state.update({
             "device_id": payload.get("device_id", "fish-feeder-01"),
-            "control_mode": "capstone" if dashboard_control else "telemetry_only",
+            "control_mode": "vismok" if dashboard_control else "telemetry_only",
             "uptime_ms": finite_value("uptime_ms"),
             "free_heap": finite_value("free_heap"),
             "rssi": finite_value("wifi_rssi"),
@@ -224,7 +225,7 @@ def api_ingest():
 
 @app.route("/api/telemetry", methods=["POST"])
 def api_telemetry():
-    """Terima format datar dari firmware capstone berbasis Telegram."""
+    """Terima format datar dari firmware VISMOK berbasis Telegram."""
     payload = request.get_json(silent=True)
     if not isinstance(payload, dict):
         return jsonify({"ok": False, "error": "payload harus berupa objek JSON"}), 400
@@ -260,7 +261,7 @@ def api_telemetry():
             clock.split(":"), (3600, 60, 1)
         ))
         upcoming = []
-        for index, slot in enumerate(CAPSTONE_SCHEDULE):
+        for index, slot in enumerate(DEFAULT_SCHEDULE):
             hour, minute = map(int, slot["time"].split(":"))
             delta = hour * 3600 + minute * 60 - now_seconds
             if delta <= 0:
@@ -297,7 +298,7 @@ def api_telemetry():
         "rtc_ok": rtc_ok,
         "rssi": finite_value("wifi_rssi"),
         "feed_count_today": finite_value("feed_count_today"),
-        "schedule": CAPSTONE_SCHEDULE,
+        "schedule": DEFAULT_SCHEDULE,
         "auto_feed": True,
         "next_slot_index": next_slot_index,
         "secs_to_next": secs_to_next,
@@ -509,7 +510,7 @@ def api_feed_now():
         return jsonify({"ok": False, "error": "takar harus angka"}), 400
 
     control_mode = state.snapshot().get("control_mode")
-    max_takar = 3.3 if control_mode == "capstone" else 5.0
+    max_takar = 3.3 if control_mode == "vismok" else 5.0
     if not math.isfinite(takar) or takar < 0.2 or takar > max_takar:
         return jsonify({
             "ok": False,
@@ -523,7 +524,7 @@ def api_feed_now():
         }), 503
 
     commands.push("FEED_NOW", takar=takar)
-    if control_mode == "capstone":
+    if control_mode == "vismok":
         state.update({
             "motor": {
                 "running": True,
@@ -535,7 +536,7 @@ def api_feed_now():
     return jsonify({
         "ok": True,
         "message": f"Perintah feed {takar} takar diantrikan ke ESP32",
-        "retry_after_ms": 30000 if control_mode == "capstone" else 4000,
+        "retry_after_ms": 30000 if control_mode == "vismok" else 4000,
     })
 
 
@@ -556,11 +557,11 @@ def api_schedule():
         return jsonify({"ok": False, "error": "slots harus berupa list"}), 400
 
     control_mode = state.snapshot().get("control_mode")
-    max_takar = 3.3 if control_mode == "capstone" else 5.0
-    if control_mode == "capstone" and len(slots) != 3:
+    max_takar = 3.3 if control_mode == "vismok" else 5.0
+    if control_mode == "vismok" and len(slots) != 3:
         return jsonify({
             "ok": False,
-            "error": "Firmware capstone mendukung tepat 3 slot jadwal",
+            "error": "Firmware VISMOK mendukung tepat 3 slot jadwal",
         }), 400
 
     cleaned = []

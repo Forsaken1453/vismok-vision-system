@@ -77,7 +77,7 @@ def evaluate(snapshot: dict) -> list[dict]:
         })
 
     # ---- 4. Motor mungkin macet (berdasarkan peak run terakhir) ----
-    if (snapshot.get("control_mode") not in ("telemetry_only", "capstone")
+    if (snapshot.get("control_mode") not in ("telemetry_only", "vismok")
             and not motor.get("running") and 0 < peak < MOTOR_STUCK_CURRENT):
         alerts.append({
             "code": "MOTOR_LOW_CURRENT",
