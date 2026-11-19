@@ -1,6 +1,6 @@
 ![Banner](docs/assets/banner.png)
 
-# VISMOK × Fish Feeder IoT
+# VISMOK — Vision System for Fish Store
 
 **Ekosistem budidaya & penjualan ikan berbasis Computer Vision + IoT** — dibangun untuk UMKM *Toko Ikan Aseli Ngawi*.
 
@@ -13,7 +13,7 @@
 [![License](https://img.shields.io/badge/License-MIT-22D3EE)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D4?logo=windows&logoColor=white)](#)
 
-> **Dikembangkan oleh Forsaken1453 · 2026**
+> **Dikembangkan oleh Muhammad Wildan Setyawan · 2026**
 > Sistem yang **MELIHAT** ikan, **MENYARANKAN** pakan, **MEMBERI** pakan otomatis, **MEMANTAU** energi, dan **MELAPOR** ke Telegram & dashboard web — satu ekosistem tertutup.
 
 ---
@@ -270,9 +270,9 @@ Lapisan keamanan yang sudah diterapkan:
 
 ---
 
-## 👥 Tim & Lisensi
+## 👤 Pengembang & Lisensi
 
-**VISMOK**
-Program Studi Teknik Elektro · 2026
+**Muhammad Wildan Setyawan**
+2026
 
 Dirilis di bawah lisensi [MIT](LICENSE) — bebas digunakan dengan atribusi.
