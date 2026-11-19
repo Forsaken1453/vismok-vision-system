@@ -1,7 +1,7 @@
 /* =====================================================================
- *  FISH FEEDER - GABUNGAN (Capstone + Dashboard Web)
+ *  FISH FEEDER - GABUNGAN (VISMOK + Dashboard Web)
  *  =====================================================================
- *  Kode ini adalah sketsa capstone Kelompok 4 yang DIPERLUAS agar bisa
+ *  Kode ini adalah sketsa VISMOK yang DIPERLUAS agar bisa
  *  tampil realtime di dashboard web (Flask di laptop), tanpa menghilangkan
  *  fitur lama:
  *
@@ -198,7 +198,7 @@ void setupRTC() {
 }
 
 /* ============================ SENSOR ============================= */
-/* RMS dengan 2 tahap, metode dari kode capstone (akurat utk ZMPT). */
+/* RMS dengan 2 tahap, metode RMS dua tahap (akurat utk ZMPT). */
 void bacaZMPT() {
   const int N = 1000;
   long total = 0;
@@ -573,7 +573,7 @@ void updateLCD() {
 void setup() {
   Serial.begin(115200);
   delay(300);
-  Serial.println("\n==== Fish Feeder (Capstone + Dashboard Web) ====");
+  Serial.println("\n==== Fish Feeder (VISMOK + Dashboard Web) ====");
 
   pinMode(PIN_ENA, OUTPUT);
   pinMode(PIN_IN1, OUTPUT);

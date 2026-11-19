@@ -71,23 +71,23 @@ Biarkan jendela hitam tetap terbuka. Kalau ditutup, server mati.
 
 ### Langkah 2 — Upload firmware ke ESP32
 
-> **Pakai kode capstone Telegram + LCD 20x4 yang dikirim untuk diperbaiki?**
+> **Pakai firmware VISMOK Telegram + LCD 20x4?**
 > Buka **`firmware/Kode_Final_Vismok_Dashboard.ino`**. File ini mempertahankan
-> firmware capstone dan menambahkan telemetry serta penerimaan perintah feed
+> firmware VISMOK dan menambahkan telemetry serta penerimaan perintah feed
 > dan jadwal dari dashboard. Perintah dashboard hanya tersedia setelah sketch
 > ini di-upload; firmware lama hanya mengirim monitoring.
 
 1. Edit `firmware/config.h` (untuk `fish_feeder.ino`)
-   atau konfigurasi di bagian atas sketch capstone:
+   atau konfigurasi di bagian atas sketch VISMOK:
    - `WIFI_SSID` dan `WIFI_PASSWORD` → isi WiFi rumah kamu
    - `DASHBOARD_URL` → `http://<IP-LAPTOP>:8080/api/ingest`
      (contoh `http://192.168.2.106:8080/api/ingest`)
    - `BOT_TOKEN` dan `CHAT_ID` → isi kredensial Telegram milikmu
-   - Pada sketch capstone: `ACS712_SENSITIVITY` dan `zmpt_calibration`
+   - Pada sketch VISMOK: `ACS712_SENSITIVITY` dan `zmpt_calibration`
      sesuai hasil kalibrasi sensor
 2. Buka Arduino IDE → buka sketch yang dipakai:
    `fish_feeder.ino`, `fish_feeder_dashboard.ino`, atau
-   `Kode_Final_Vismok_Dashboard.ino` untuk kode capstone di atas
+   `Kode_Final_Vismok_Dashboard.ino` untuk kode VISMOK di atas
 3. Install library via Library Manager:
    - `ArduinoJson` (arduinojson.org)
    - `RTClib` (Adafruit)
@@ -145,7 +145,7 @@ fish-feeder-dashboard/
 
 | Method | Endpoint | Dipanggil oleh | Fungsi |
 |---|---|---|---|
-| `POST` | `/api/ingest` | Firmware dashboard/capstone (tiap 1–5 detik) | Terima telemetry terstruktur atau format datar capstone; kirim perintah balik |
+| `POST` | `/api/ingest` | Firmware dashboard/VISMOK (tiap 1–5 detik) | Terima telemetry terstruktur atau format datar VISMOK; kirim perintah balik |
 | `POST` | `/api/telemetry` | Firmware lama (monitoring saja) | Terima telemetry datar tanpa kanal perintah |
 | `GET` | `/api/state` | Browser (tiap 1 detik) | Status lengkap + alert |
 | `GET` | `/api/history` | Browser (tiap 2 detik) | Data grafik |

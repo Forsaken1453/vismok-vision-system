@@ -1,7 +1,7 @@
 # 📖 PENJELASAN KODE — Fish Feeder IoT (ESP32 + RTC + Telegram + Dashboard)
 
 **File kode:** `Kode_Final_Vismok_Dashboard.ino`
-**Capstone Kelompok 4 — Rombel 11**
+**Proyek VISMOK — Fish Feeder IoT**
 Dokumen ini menjelaskan seluruh isi kode dengan bahasa sederhana, siap dipakai untuk persiapan penilaian.
 
 ---

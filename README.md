@@ -9,11 +9,11 @@
 [![YOLOv11](https://img.shields.io/badge/Model-YOLOv11s-FF6F00)](https://docs.ultralytics.com/)
 [![ONNX](https://img.shields.io/badge/Inference-ONNX%20Runtime-005CED?logo=onnx&logoColor=white)](https://onnxruntime.ai/)
 [![ESP32](https://img.shields.io/badge/Firmware-ESP32-E7352C?logo=espressif&logoColor=white)](https://www.espressif.com/)
-[![Release](https://img.shields.io/github/v/release/Forsaken1453/vismok-capstone?color=22D3EE&label=release)](https://github.com/Forsaken1453/vismok-capstone/releases/latest)
+[![Release](https://img.shields.io/github/v/release/Forsaken1453/vismok?color=22D3EE&label=release)](https://github.com/Forsaken1453/vismok/releases/latest)
 [![License](https://img.shields.io/badge/License-MIT-22D3EE)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D4?logo=windows&logoColor=white)](#)
 
-> **Capstone Project — Kelompok 4, Rombel 11**
+> **Dikembangkan oleh Forsaken1453 · 2026**
 > Sistem yang **MELIHAT** ikan, **MENYARANKAN** pakan, **MEMBERI** pakan otomatis, **MEMANTAU** energi, dan **MELAPOR** ke Telegram & dashboard web — satu ekosistem tertutup.
 
 ---
@@ -174,7 +174,7 @@ Evaluasi pada **136 foto uji terpisah** (tidak ikut dilatih):
 ## 📁 Struktur Repo
 
 ```
-vismok-capstone/
+vismok/
 ├─ vision-app/                 Aplikasi desktop VISMOK
 │  ├─ app/                     core detector, database, UI (PySide6)
 │  ├─ models/                  model.onnx (YOLOv11s) + classes.json
@@ -188,7 +188,7 @@ vismok-capstone/
 │  ├─ firmware/                .ino utama + dokumen penjelasan kode
 │  ├─ app/                     server dashboard (REST API, storage, alerts)
 │  ├─ docs/                    wiring, panduan
-│  └─ poster/                  poster capstone
+│  └─ poster/                  poster produk
 │
 └─ docs/
    └─ assets/banner.png
@@ -200,7 +200,7 @@ vismok-capstone/
 
 ### A. Aplikasi visi (VISMOK)
 
-**Cara tercepat — unduh paket portable** dari [Releases](https://github.com/Forsaken1453/vismok-capstone/releases/latest)
+**Cara tercepat — unduh paket portable** dari [Releases](https://github.com/Forsaken1453/vismok/releases/latest)
 (`VISMOK-v1.0.0-win64.zip`), ekstrak, lalu jalankan `VISMOK.exe`. Tidak perlu Python.
 
 Dari sumber:
@@ -272,7 +272,7 @@ Lapisan keamanan yang sudah diterapkan:
 
 ## 👥 Tim & Lisensi
 
-**Capstone Kelompok 4 — Rombel 11**
+**VISMOK**
 Program Studi Teknik Elektro · 2026
 
 Dirilis di bawah lisensi [MIT](LICENSE) — bebas digunakan dengan atribusi.

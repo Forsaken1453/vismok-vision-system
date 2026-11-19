@@ -4,7 +4,7 @@
   Dengan Monitoring Energi (PZEM-004T V3, ACS712 20A, ZMPT101B)
   Terintegrasi Telegram Bot (IoT)
 
-  Capstone Kelompok 4 - Rombel 11
+  VISMOK - Fish Feeder IoT (Forsaken1453)
   ================================================================
 
   LIBRARY YANG DIBUTUHKAN (install lewat Arduino IDE > Library Manager):
